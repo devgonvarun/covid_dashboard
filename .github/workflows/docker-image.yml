@@ -1,0 +1,30 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    env:
+      IMAGE_NAME: ghcr.io/${{ github.repository_owner }}/covid_docker
+      TAG: latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Log in to GitHub Container Registry
+      - name: Log in to GitHub Container Registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      # Build the Docker image and tag it as "latest"
+      - name: Build the Docker image
+        run: docker build . --file Dockerfile --tag $IMAGE_NAME:$TAG
+
+      # Push the Docker image to GitHub Container Registry
+      - name: Push the Docker image
+        run: docker push $IMAGE_NAME:$TAG
+
+      
