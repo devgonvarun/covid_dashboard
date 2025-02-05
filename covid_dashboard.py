@@ -5,7 +5,7 @@ from snowflake.snowpark import Session
 #from snowflake.snowpark.context import get_active_session
 
 
-st.sidebar.title("Covid Dashboard Test:microbe:")
+st.sidebar.title("Covid Dashboard:microbe:")
 
 col1, col2 = st.columns(2)
 
